@@ -129,10 +129,12 @@ else:
   continue
 
 if scaffolding is complete:
+  initialize git if the created path is not already inside a git repository
   remove generated apps, docs, packages, tools, configs, scripts, and dependencies that are outside the approved proposal
   install dependencies through the selected package manager
   run generated checks when they exist
   make only minimal glue edits generators do not provide
+  commit the final scaffolded state when git is available and checks have passed
 else:
   report where scaffolding stopped
 
@@ -140,6 +142,7 @@ finish with:
   created path
   stack actually installed
   commands run
+  git commit hash when a commit was created
   checks run and status
   required provider setup or environment variables
   next command to start development
