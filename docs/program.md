@@ -8,6 +8,17 @@ If the user asks to create, scaffold, bootstrap, initialize, or choose a stack f
 
 If the user already chose every major tool, skip recommendation and move to command planning.
 
+## Skill Discovery
+
+Before scaffolding, check whether official or reputable skills can improve the setup for the chosen project type.
+
+- Prefer the `find-skills` skill, when available, to search skills.sh for relevant project, framework, deployment, database, testing, or UI skills.
+- Install and use only a small set of clearly relevant skills for the current project.
+- Do not bulk-install broad collections, duplicates, near-duplicates, or speculative skills.
+- Prefer official skills and high-reputation sources when there are multiple options.
+- Ask before installing a skill unless the user already gave permission to install setup dependencies.
+- If no skill is clearly useful, proceed without adding one.
+
 ## Context Collection
 
 Ask with the `question` tool when available.
