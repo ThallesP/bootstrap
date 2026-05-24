@@ -3,7 +3,7 @@
 This is the skill flow. It is plain English, but should be followed sequentially like code.
 
 ```text
-categories = product shape, user/account model, data shape, realtime/jobs/workers/workflows, UI/styling constraints, repo shape, deployment target, package/runtime preferences, testing/quality expectations, integrations/add-ons
+categories = product shape, user/account model, data shape, realtime/jobs/workers/workflows, UI/styling constraints, repo shape, deployment/hosting target, package/runtime preferences, testing/quality expectations, observability, API keys, integrations/add-ons
 
 if user asks to bootstrap, scaffold, create, initialize, or choose a stack:
   continue

@@ -14,8 +14,12 @@ Categories:
 - `package-manager.md`
 - `app-shell.md`
 - `data-backend.md`
+- `deployment-hosting.md`
+- `storage-cache.md`
 - `auth.md`
 - `repo-shape.md`
 - `ui-styling.md`
 - `quality-testing.md`
+- `observability.md`
+- `api-keys.md`
 - `product-add-ons.md`
