@@ -1,50 +1,60 @@
 # Bootstrap Program
 
-This is the skill flow in plain English. Keep it simple and run it in order.
+This is the skill flow. It is plain English, but should be followed like code.
 
-Start when the user asks to bootstrap, scaffold, create, initialize, or choose a stack for a new project.
+```text
+on bootstrap request -> start
 
-Collect context by category.
+start -> collect context
 
-Ask only for missing high-impact context. Accept related answers the user already gave. Do not ask questions whose answers can safely default later.
+collect context -> ask for missing high-impact categories only
+collect context -> accept context already provided by the user
+collect context -> default anything that is safe to decide later
+collect context -> continue when the important categories are known
 
-Use these context categories:
+categories = product shape, user/account model, data shape, realtime/jobs/workers/workflows, UI/styling constraints, repo shape, deployment target, package/runtime preferences, testing/quality expectations, integrations/add-ons
 
-- product shape
-- user and account model
-- data shape
-- realtime, jobs, workers, or workflows
-- UI surface and styling constraints
-- repo shape
-- deployment target
-- package/runtime preferences
-- testing and quality expectations
-- integrations and product add-ons
+questions -> use question tool when available
+questions -> use chat when question tool is unavailable
 
-Use the `question` tool when available. Otherwise ask in chat.
+skills -> consider before scaffolding
+skills -> search only when a category clearly benefits from external skill support
+skills -> use npx skills find <topic> to search
+skills -> use npx skills add <url-or-package> --skill <name> to install the selected skill
+skills -> summarize useful candidates briefly
+skills -> ask before installing unless setup installs are already approved
+skills -> install only selected skills
+skills -> never install broad packs, duplicates, near-duplicates, or speculative skills
 
-Consider external skill support before scaffolding.
+tools -> choose relevant categories
+tools -> read only matching files under docs/tools
+tools -> skip categories outside the first version
 
-Search for relevant official or reputable skills only when a category would clearly benefit from one. Use `npx skills find <topic>` to search and `npx skills add <url-or-package> --skill <name>` to install a selected skill.
+proposal -> present stack by category
+proposal -> include commands to run
+proposal -> include what will not be configured yet
+proposal -> ask for approval or changes
 
-Summarize useful skill candidates briefly. Ask before installing unless the user already approved setup installs. Install only the selected skill or skills. Do not install broad packs, duplicates, near-duplicates, or speculative skills.
+change requested -> update only affected categories
+change requested -> keep unrelated approved choices stable
+change requested -> return to proposal
 
-Choose relevant tool categories.
+approved -> run official generators and package init commands
+approved -> do not hand-write framework boilerplate that a generator should create
 
-Read only the matching files under `docs/tools`. Skip categories that are out of scope for the first version.
+stop -> command would overwrite files
+stop -> provider login is required
+stop -> dashboard setup is required
+stop -> CLI asks an architectural question
 
-Propose a stack by category.
+scaffolded -> install dependencies through selected package manager
+scaffolded -> run generated checks when they exist
+scaffolded -> make only minimal glue edits generators do not provide
 
-Include the commands that will run. Include what will intentionally not be configured yet. Ask the user to approve or change the proposal.
-
-If the user changes the proposal, update only the affected category or categories. Keep unrelated approved choices stable. Ask for approval again.
-
-After approval, run official project generators and package init commands.
-
-Do not hand-write framework boilerplate that a generator should create.
-
-Stop and ask if a command would overwrite files, a provider login is required, dashboard setup is required, or a CLI asks an architectural question.
-
-After scaffolding, install dependencies through the selected package manager. Run generated checks when they exist. Make only minimal glue edits that generators do not provide.
-
-Finish with the created path, stack actually installed, commands run, checks run and status, required provider setup or environment variables, and next command to start development.
+finish -> report created path
+finish -> report stack actually installed
+finish -> report commands run
+finish -> report checks run and status
+finish -> report required provider setup or environment variables
+finish -> report next command to start development
+```
