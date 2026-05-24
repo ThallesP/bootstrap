@@ -60,6 +60,11 @@ if context points to a tool category:
 else:
   do not read unrelated tool files
 
+if independent research or setup tasks can run in parallel without touching the same files, prompts, provider state, or generated output:
+  use subagents when available and reconcile their findings before proposing changes
+else:
+  keep the work sequential
+
 if a tool category is outside the first version:
   skip it
 else:
