@@ -23,16 +23,16 @@ Before scaffolding, check whether official or reputable skills can improve the s
 
 Ask with the `question` tool when available.
 
-Prefer a compact question set:
+Prefer a compact category-based question set:
 
 1. What are you building?
-2. Is the app mostly marketing/content, app UI, internal tools, developer platform, or data-heavy dashboard?
+2. Is the app mostly content/marketing, authenticated product UI, internal tools, developer platform, or dashboard?
 3. Do users need accounts, teams, roles, billing, or organizations?
-4. Does it need realtime sync, multiplayer state, live jobs, notifications, or collaborative UI?
-5. Is launch speed more important than long-term ownership of auth and backend code?
-6. Should it be a monorepo with app, packages, SDKs, and shared types?
+4. Do you need realtime sync, background workers, workflows, notifications, or collaborative state?
+5. Is the data model mostly relational/reporting-heavy, reactive/live, files/media, or simple CRUD?
+6. Should this be one app or a monorepo with packages, SDKs, workers, or docs?
 7. Where will it deploy: Vercel, Railway, Fly, Cloudflare, self-hosted, or undecided?
-8. Any hard preferences: Bun, pnpm, Next.js, TanStack Start, Vite, Convex, Postgres, Clerk, better-auth, Tailwind, shadcn/ui, Biome, oxlint?
+8. Any hard preferences or existing tools to respect?
 
 Required context:
 
@@ -50,65 +50,72 @@ Optional context:
 - Runtime: Node, Bun, edge, serverless, long-running server.
 - Existing accounts: Convex, Clerk, Supabase, Neon, Vercel, Railway.
 
-## Stack Selection
+## Defaults
 
-Use these branches:
+Assume these defaults unless the user context pushes elsewhere:
 
-```text
-if realtime or reactive backend or background workflows:
-  suggest Convex
-else if SQL/reporting/compliance/existing DB:
-  suggest Postgres + Drizzle or Prisma
-else:
-  suggest no backend yet or framework route handlers
+- Tailwind for styling.
+- Bun for package manager and scripts in new repos.
+- Biome for formatting and linting.
+- shadcn/ui for React app UI when the project wants ready-made components.
+- Playwright for browser E2E only when the project clearly has a meaningful UI flow worth testing.
 
-if auth required and launch speed high:
-  suggest Clerk
-else if auth required and ownership/control high:
-  suggest better-auth
-else:
-  skip auth for v0
+## Category Selection
 
-if SEO/content/caching/server rendering/Vercel-first:
-  suggest Next.js
-else if app UI/client interactions/typed routing/less magic:
-  suggest TanStack Start
-else if static SPA/prototype/separate backend:
-  suggest Vite
+Choose one recommendation per category instead of trying to decide the whole stack in one branchy pass.
 
-if SDKs/shared types/multiple apps/examples/docs:
-  suggest Turborepo
-else:
-  suggest single app
+### App Shell
 
-if no package manager preference:
-  suggest Bun
+- Choose Next.js for content, SEO, server rendering, route handlers, caching, or Vercel-first projects.
+- Choose TanStack Start for authenticated app UI, typed routing/data flows, and lower-framework-magic product apps.
+- Choose Vite for client-only SPAs, embedded tools, prototypes, or UIs that pair with a separate backend.
 
-if simple quality tooling:
-  suggest Biome
-if very fast linting or large codebase:
-  suggest oxlint, optionally with Biome format
-```
+### Data and Backend
 
-Use these specific fit rules when explaining the recommendation:
+- Choose Convex when the app needs realtime sync, background workflows, reactive queries, or fast iteration on app plus backend together.
+- Choose Postgres with Drizzle or Prisma when the app needs relational reporting, SQL ownership, conventional backend architecture, or DB portability.
+- Choose framework route handlers or no backend yet when the first version is light and does not justify a full backend choice.
 
-- Choose Next.js when server rendering, caching, route handlers, Vercel deploys, content, SEO, or mature ecosystem matter.
-- Choose TanStack Start when the product is app-UI first, client-heavy, typed routing/data flows matter, and the user wants less framework magic than Next.js.
-- Choose Vite when the app is mostly client-side, embedded, prototype-oriented, or will pair with a separate backend.
-- Choose Convex when realtime data, reactive queries, background jobs, internal workflows, shared backend types, or fast product iteration matter.
-- Choose Postgres plus Drizzle or Prisma when relational reporting, SQL portability, existing DB operations, or conventional backend ownership matter.
-- Choose Clerk when launch speed, organizations, passkeys/social auth, and hosted account management are more important than owning auth internals.
-- Choose better-auth when the user wants auth in their codebase, more control, lower hosted dependency, or can afford more setup.
-- Choose Turborepo when there will be multiple apps, SDK packages, shared types, worker packages, docs, or examples.
-- Choose Bun when the user has no package manager preference or explicitly wants fast install/runtime. Respect existing repo package managers.
-- Choose Biome for formatting plus linting when the user wants one simple tool.
-- Choose oxlint when fast linting is a priority; pair with Biome for formatting if needed.
+### Auth
+
+- Choose Clerk when launch speed, hosted auth flows, organizations, and account UI matter more than owning auth internals.
+- Choose better-auth when the team wants auth in the repo, more control, and can accept more setup.
+- Skip auth in v0 when the app does not need it yet.
+
+### Repo Shape
+
+- Choose Turborepo when the project needs multiple apps, shared packages, SDKs, docs, workers, or examples.
+- Choose a single app when the project is one deployable surface with little shared code.
+
+### UI and Styling
+
+- Default to Tailwind unless the user already has a design system or explicitly wants another styling approach.
+- Add shadcn/ui for React projects that want practical components with local ownership.
+
+### Quality Tooling
+
+- Default to Biome when the user wants one simple formatting and linting tool.
+- Add oxlint when lint speed matters or the repo will be large.
+- Add Vitest for unit tests when the chosen framework does not already give a better default.
+- Add Playwright for browser E2E when auth flows, checkout, dashboards, or other important UI paths need coverage.
+
+### Small Supporting Tools
+
+- Add Stripe only when billing is in scope.
+- Add Resend only when email flows are in scope.
+- Add Sentry once there is a deploy target worth monitoring.
+- Add PostHog when analytics or feature flags are clearly useful.
+- Add Hono when the project needs a small standalone API instead of framework route handlers.
+- Add tRPC when the team wants a typed app-to-API boundary and Convex is not already the backend shape.
+- Add Inngest or Trigger.dev only when durable jobs are needed and the selected backend does not already cover that need.
+
+When explaining the recommendation, walk category by category so the user can override one choice without redoing the whole stack.
 
 ## Approval Gate
 
 Before creating files, present:
 
-- Chosen stack.
+- Chosen stack by category.
 - Why each major tool is included.
 - What official CLIs will run.
 - What will not be configured yet.
