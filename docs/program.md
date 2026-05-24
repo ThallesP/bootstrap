@@ -1,151 +1,74 @@
 # Bootstrap Program
 
-This is the skill's executable logic in prose. Follow it like code.
+This is the skill's control flow in plain English. Follow it like code.
 
-## Entry
+```text
+when the user asks to bootstrap, scaffold, create, initialize, or choose a stack for a new project:
+  start a bootstrap session
 
-If the user asks to create, scaffold, bootstrap, initialize, or choose a stack for a new project, run this program.
+bootstrap session:
+  collect project context by category
+  while important context is missing:
+    ask only the missing high-impact questions
+    accept related answers the user volunteers
+    do not ask questions whose answer can safely default later
 
-If the user already chose every major tool, skip recommendation and move to command planning.
+  consider skill support
+  if a specific category would benefit from an external skill:
+    search for a small number of relevant official or reputable skills
+    summarize the useful candidates briefly
+    ask before installing any skill unless the user already approved setup installs
+    install only the selected skill or skills
+    do not install broad packs, duplicates, near-duplicates, or speculative skills
 
-## Program
+  choose the relevant tool categories
+  read only the matching files under docs/tools
+  skip categories that are out of scope for the first version
 
-Run this as a loop, not a one-shot answer.
+  produce a stack proposal by category
+  include the commands that will be run
+  include what will intentionally not be configured yet
+  ask the user to approve or change the proposal
 
-1. Collect context by category.
-2. Search for a small number of relevant official or reputable skills.
-3. Read the matching tool category files under `docs/tools/`.
-4. Recommend one stack by category, with defaults where the user has no preference.
-5. Ask for approval or corrections.
-6. If the user changes a category, update only that category and loop back to approval.
-7. After approval, run official CLIs and package init commands.
-8. Run generated checks and report results.
+  while the user changes the proposal:
+    update only the affected category or categories
+    keep unrelated approved choices stable
+    ask for approval again
 
-## Context Loop
+  after approval:
+    run official project generators and package init commands
+    avoid hand-writing framework boilerplate that a generator should create
+    if a command would overwrite files, stop and ask
+    if a provider login or dashboard setup is required, stop and ask
+    if a CLI asks an architectural question, stop and ask or rerun with explicit flags
 
-Ask with the `question` tool when available.
+  after scaffolding:
+    install dependencies through the selected package manager
+    run generated checks when they exist
+    make only minimal glue edits that generators do not provide
 
-Prefer a compact category-based question set:
-
-1. What are you building?
-2. Is the app mostly content/marketing, authenticated product UI, internal tools, developer platform, or dashboard?
-3. Do users need accounts, teams, roles, billing, or organizations?
-4. Do you need realtime sync, background workers, workflows, notifications, or collaborative state?
-5. Is the data model mostly relational/reporting-heavy, reactive/live, files/media, or simple CRUD?
-6. Should this be one app or a monorepo with packages, SDKs, workers, or docs?
-7. Where will it deploy: Vercel, Railway, Fly, Cloudflare, self-hosted, or undecided?
-8. Any hard preferences or existing tools to respect?
-
-Required context:
-
-- Product shape: SaaS, internal tool, developer platform, dashboard, content site, AI app, mobile companion, library, or unknown.
-- Data shape: CRUD, realtime, event stream, analytics/reporting, jobs/workflows, files/media, or mostly static.
-- Auth needs: none, personal accounts, teams/orgs, enterprise SSO, roles/permissions.
-- Time horizon: prototype this week, launch soon, durable foundation, or experiment.
-- Repo shape: single app or monorepo.
-- Deploy target: Vercel, Railway, Fly, Cloudflare, self-hosted, unknown.
-
-Optional context:
-
-- UI preference: Tailwind, shadcn/ui, design system later, no preference.
-- Package manager: Bun, pnpm, npm, yarn.
-- Runtime: Node, Bun, edge, serverless, long-running server.
-- Existing accounts: Convex, Clerk, Supabase, Neon, Vercel, Railway.
-
-If any required category is unclear, ask only the missing or high-impact follow-up questions. Do not interrogate the user when defaults are safe.
-
-## Skill Discovery Loop
-
-Before scaffolding, check whether official or reputable skills can improve the setup for the chosen project type.
-
-- Prefer the `find-skills` skill, when available, to search skills.sh for relevant project, framework, deployment, database, testing, or UI skills.
-- Skills CLI one-liner: use `npx skills find <topic>` to search and `npx skills add <url-or-package> --skill <name>` to install a selected skill.
-- Install and use only a small set of clearly relevant skills for the current project.
-- Do not bulk-install broad collections, duplicates, near-duplicates, or speculative skills.
-- Prefer official skills and high-reputation sources when there are multiple options.
-- Ask before installing a skill unless the user already gave permission to install setup dependencies.
-- If no skill is clearly useful, proceed without adding one.
-
-## Defaults
-
-Assume these defaults unless the user context pushes elsewhere:
-
-- Tailwind for styling.
-- Bun for package manager and scripts in new repos.
-- Biome for formatting and linting.
-- shadcn/ui for React app UI when the project wants ready-made components.
-- Playwright for browser E2E only when the project clearly has a meaningful UI flow worth testing.
-
-## Tool Selection
-
-Read only the category files that match the user's context:
-
-- `docs/tools/package-manager.md`
-- `docs/tools/app-shell.md`
-- `docs/tools/data-backend.md`
-- `docs/tools/auth.md`
-- `docs/tools/repo-shape.md`
-- `docs/tools/ui-styling.md`
-- `docs/tools/quality-testing.md`
-- `docs/tools/product-add-ons.md`
-
-Choose one recommendation per relevant category. Skip categories that are out of scope for v0.
-
-When explaining the recommendation, walk category by category so the user can override one choice without redoing the whole stack.
-
-## Approval Gate
-
-Before creating files, present:
-
-- Chosen stack by category.
-- Why each major tool is included.
-- What official CLIs will run.
-- What will not be configured yet.
-
-Ask the user to approve or adjust.
-
-## Scaffold Order
-
-Prefer this order:
-
-1. Create monorepo or app shell with official CLI.
-2. Install package manager dependencies through the package manager.
-3. Add backend/auth/tooling through their official init commands.
-4. Run generated checks.
-5. Only then make minimal glue edits that CLIs do not provide.
-
-Prefer these official CLI patterns:
-
-```sh
-bun create next-app <app-name>
-bun create vite <app-name>
-bunx create-tsrouter-app@latest <app-name>
-bunx create-turbo@latest <repo-name>
-bunx convex@latest dev
-bunx shadcn@latest init
-bunx biome@latest init
-bunx oxlint@latest --init
+  finish with:
+    created path
+    stack actually installed
+    commands run
+    checks run and status
+    required provider setup or environment variables
+    next command to start development
 ```
 
-When exact CLI flags are uncertain, run `<cli> --help` first rather than guessing.
+Context categories:
 
-## Stop Conditions
+- product shape
+- user and account model
+- data shape
+- realtime, jobs, workers, or workflows
+- UI surface and styling constraints
+- repo shape
+- deployment target
+- package/runtime preferences
+- testing and quality expectations
+- integrations and product add-ons
 
-Stop and ask when:
+Use the `question` tool when available. Otherwise ask in chat.
 
-- A provider requires account login or dashboard setup.
-- A CLI asks an interactive question that affects architecture.
-- The target directory exists and is not empty.
-- The requested stack has incompatible assumptions.
-- A command would overwrite user files.
-
-## Final Report
-
-End with:
-
-- Created path.
-- Stack actually installed.
-- Commands run.
-- Checks run and status.
-- Required env vars/provider setup.
-- Next command to start development.
+Skills CLI reference: use `npx skills find <topic>` to search and `npx skills add <url-or-package> --skill <name>` to install a selected skill.
