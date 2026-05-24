@@ -1,0 +1,83 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+usage() {
+  printf 'Usage: ./setup [--host opencode|claude|all] [--copy] [--force]\n'
+}
+
+host="all"
+mode="symlink"
+force="false"
+
+while [ "$#" -gt 0 ]; do
+  case "$1" in
+    --host)
+      if [ "$#" -lt 2 ]; then
+        printf 'Missing value for --host\n' >&2
+        exit 2
+      fi
+      host="$2"
+      shift 2
+      ;;
+    --copy)
+      mode="copy"
+      shift
+      ;;
+    --force)
+      force="true"
+      shift
+      ;;
+    -h|--help)
+      usage
+      exit 0
+      ;;
+    *)
+      usage >&2
+      exit 2
+      ;;
+  esac
+done
+
+case "$host" in
+  opencode|claude|all) ;;
+  *)
+    printf 'Unknown host: %s\n' "$host" >&2
+    exit 2
+    ;;
+esac
+
+root="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)"
+
+install_one() {
+  target="$1"
+  mkdir -p "$(dirname -- "$target")"
+
+  if [ -e "$target" ] || [ -L "$target" ]; then
+    if [ -L "$target" ] && [ "$(readlink -- "$target")" = "$root" ]; then
+      rm -f "$target"
+    elif [ "$force" = "true" ]; then
+      rm -rf "$target"
+    else
+      printf 'Refusing to overwrite existing skill: %s\n' "$target" >&2
+      printf 'Re-run with --force if this is intentional.\n' >&2
+      exit 1
+    fi
+  fi
+
+  if [ "$mode" = "copy" ]; then
+    mkdir -p "$target"
+    cp -R "$root"/. "$target"/
+  else
+    ln -s "$root" "$target"
+  fi
+
+  printf 'Installed bootstrap skill: %s\n' "$target"
+}
+
+if [ "$host" = "opencode" ] || [ "$host" = "all" ]; then
+  install_one "$HOME/.config/opencode/skills/bootstrap"
+fi
+
+if [ "$host" = "claude" ] || [ "$host" = "all" ]; then
+  install_one "$HOME/.claude/skills/bootstrap"
+fi
