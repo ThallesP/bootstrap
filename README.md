@@ -1,6 +1,6 @@
 # Bootstrap
 
-Bootstrap is a small English program for LLMs (not joking, see docs/program.md). It gives an agent a sequential flow for bootstrapping a modern TypeScript app: ask for the right context, pick tools by category, get approval, then scaffold with official CLIs.
+Bootstrap is a small English program for LLMs (not joking, see [docs/program.md](docs/program.md)). It gives an agent a sequential flow for bootstrapping a modern TypeScript app: ask for the right context, pick tools by category, get approval, then scaffold with official CLIs.
 
 The idea is inspired by English-as-code workflows for agents:
 
