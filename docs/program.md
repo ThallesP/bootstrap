@@ -49,6 +49,7 @@ else:
 
 if installing skills:
   use npx skills add <url-or-package> --skill <name>
+  prefer installing skills into the project over installing them globally
   install only selected skills
   do not install broad packs, duplicates, near-duplicates, or speculative skills
 else:
