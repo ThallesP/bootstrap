@@ -30,8 +30,19 @@ if a category can safely default later:
 else:
   ask before recommending that category
 
+when presenting any recommendation, whether in chat, a proposal, or the question tool:
+  tailor the trigger/reason to the user's app context, not a generic tool description
+  keep the trigger/reason short, usually under 20 words
+  name the recommended tool or decision separately from the reason
+  explain why this app needs it now, and skip it if it is not part of the first useful slice
+  for jobs/workers/workflows, pick the strongest fit from context instead of always preferring one platform:
+    Trigger.dev (background jobs, schedules, retries, or external integrations)
+    Inngest (durable event workflows tied to the DB/API backend)
+
 if the question tool is available:
   use it for compact category questions
+  make each option label the tool name or decision, not the rationale
+  put the app-specific trigger/reason in the option description
 else:
   ask in chat
 
