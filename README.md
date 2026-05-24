@@ -11,3 +11,7 @@ Install with [skills.sh](https://skills.sh):
 ```sh
 npx skills add ThallesP/bootstrap
 ```
+
+## How do I suggest tools?
+
+Open a PR. The list is based on my criteria, mostly tools I use daily or found through T3 sponsors. I might still close the PR without much explanation.
