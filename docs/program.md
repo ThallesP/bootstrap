@@ -3,58 +3,79 @@
 This is the skill flow. It is plain English, but should be followed like code.
 
 ```text
-on bootstrap request -> start
-
-start -> collect context
-
-collect context -> ask for missing high-impact categories only
-collect context -> accept context already provided by the user
-collect context -> default anything that is safe to decide later
-collect context -> continue when the important categories are known
+if user asks to bootstrap, scaffold, create, initialize, or choose a stack:
+  start bootstrap
 
 categories = product shape, user/account model, data shape, realtime/jobs/workers/workflows, UI/styling constraints, repo shape, deployment target, package/runtime preferences, testing/quality expectations, integrations/add-ons
 
-questions -> use question tool when available
-questions -> use chat when question tool is unavailable
+if context is missing:
+  ask for the missing high-impact categories only
 
-skills -> consider before scaffolding
-skills -> search only when a category clearly benefits from external skill support
-skills -> use npx skills find <topic> to search
-skills -> use npx skills add <url-or-package> --skill <name> to install the selected skill
-skills -> summarize useful candidates briefly
-skills -> ask before installing unless setup installs are already approved
-skills -> install only selected skills
-skills -> never install broad packs, duplicates, near-duplicates, or speculative skills
+if the user already provided related context:
+  use it instead of asking again
 
-tools -> choose relevant categories
-tools -> read only matching files under docs/tools
-tools -> skip categories outside the first version
+if a category can safely default later:
+  do not ask about it yet
 
-proposal -> present stack by category
-proposal -> include commands to run
-proposal -> include what will not be configured yet
-proposal -> ask for approval or changes
+if the question tool is available:
+  use it for compact category questions
 
-change requested -> update only affected categories
-change requested -> keep unrelated approved choices stable
-change requested -> return to proposal
+if the question tool is unavailable:
+  ask in chat
 
-approved -> run official generators and package init commands
-approved -> do not hand-write framework boilerplate that a generator should create
+if a category clearly benefits from external skill support:
+  search for relevant official or reputable skills
+  use npx skills find <topic> to search
+  summarize useful candidates briefly
 
-stop -> command would overwrite files
-stop -> provider login is required
-stop -> dashboard setup is required
-stop -> CLI asks an architectural question
+if installing a skill is useful and setup installs are not already approved:
+  ask before installing
 
-scaffolded -> install dependencies through selected package manager
-scaffolded -> run generated checks when they exist
-scaffolded -> make only minimal glue edits generators do not provide
+if installing skills:
+  use npx skills add <url-or-package> --skill <name>
+  install only selected skills
+  do not install broad packs, duplicates, near-duplicates, or speculative skills
 
-finish -> report created path
-finish -> report stack actually installed
-finish -> report commands run
-finish -> report checks run and status
-finish -> report required provider setup or environment variables
-finish -> report next command to start development
+if context points to a tool category:
+  read the matching file under docs/tools
+
+if a tool category is outside the first version:
+  skip it
+
+if important categories are known:
+  propose a stack by category
+  include commands that will run
+  include what will not be configured yet
+  ask for approval or changes
+
+if the user changes the proposal:
+  update only affected categories
+  keep unrelated approved choices stable
+  ask for approval again
+
+if proposal is approved:
+  run official generators and package init commands
+  do not hand-write framework boilerplate that a generator should create
+
+if a command would overwrite files:
+  stop and ask
+
+if provider login or dashboard setup is required:
+  stop and ask
+
+if a CLI asks an architectural question:
+  stop and ask
+
+if scaffolding is complete:
+  install dependencies through the selected package manager
+  run generated checks when they exist
+  make only minimal glue edits generators do not provide
+
+finish with:
+  created path
+  stack actually installed
+  commands run
+  checks run and status
+  required provider setup or environment variables
+  next command to start development
 ```
