@@ -45,7 +45,7 @@ Next.js or TanStack Start, better-auth, Postgres with Drizzle, Tailwind, Biome o
 
 TanStack Start or Next.js, Convex, Clerk or better-auth, Tailwind, shadcn/ui, Biome, Bun.
 
-### Internal Tools / Interval-Like
+### Internal Tools
 
 Turborepo, Next.js or TanStack Start app, Convex backend, better-auth, shared packages for SDK/types, Biome or oxlint, Bun.
 
