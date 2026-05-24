@@ -4,6 +4,7 @@ This is the skill flow. It is plain English, but should be followed sequentially
 
 ```text
 categories = product shape, user/account model, data shape, realtime/jobs/workers/workflows, UI/styling constraints, repo shape, deployment/hosting target, package/runtime preferences, testing/quality expectations, observability, API keys, integrations/add-ons
+categorySelections = stored user selections and short app-specific reasons, keyed by category
 
 if user asks to bootstrap, scaffold, create, initialize, or choose a stack:
   continue
@@ -16,7 +17,7 @@ else:
   collect context by category
 
 if context is missing:
-  ask for the missing high-impact categories only
+  present missing high-impact categories as selectable options
 else:
   continue with the provided context
 
@@ -28,7 +29,14 @@ else:
 if a category can safely default later:
   do not ask about it yet
 else:
-  ask before recommending that category
+  present the category before recommending that category
+
+when presenting a category:
+  always allow multiple selections, even when the category looks single-choice
+  include recommended options and viable alternatives when useful
+  store the user's selections in categorySelections
+  reuse categorySelections for later questions, stack proposals, command planning, and scaffolding
+  if the user changes a selection, update only that category
 
 when presenting any recommendation, whether in chat, a proposal, or the question tool:
   tailor the trigger/reason to the user's app context, not a generic tool description
@@ -41,10 +49,11 @@ when presenting any recommendation, whether in chat, a proposal, or the question
 
 if the question tool is available:
   use it for compact category questions
+  set multiple = true for every category question
   make each option label the tool name or decision, not the rationale
   put the app-specific trigger/reason in the option description
 else:
-  ask in chat
+  ask in chat and make clear the user can pick multiple options
 
 if a category clearly benefits from external skill support:
   search for relevant official or reputable skills
@@ -83,6 +92,7 @@ else:
 
 if important categories are known:
   propose a stack by category
+  base the proposal on categorySelections and any explicit user-provided context
   include commands that will run
   include what will not be configured yet
   ask for approval or changes
