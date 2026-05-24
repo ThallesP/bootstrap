@@ -109,6 +109,7 @@ else:
 if proposal is approved:
   run official generators and package init commands
   do not hand-write framework boilerplate that a generator should create
+  treat generator defaults as removable scaffolding, not approved architecture
 else:
   do not scaffold yet
 
@@ -128,6 +129,7 @@ else:
   continue
 
 if scaffolding is complete:
+  remove generated apps, docs, packages, tools, configs, scripts, and dependencies that are outside the approved proposal
   install dependencies through the selected package manager
   run generated checks when they exist
   make only minimal glue edits generators do not provide
