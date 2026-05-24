@@ -15,3 +15,4 @@ Use this skill to turn rough product context into a practical starter app. `SKIL
 ## Core Rule
 
 Prefer official CLIs and package init commands. Do not invent custom framework boilerplate when a generator can create it.
+When creating the project, do not go deep into application logic. Focus on the initial project structure and architecture unless the user explicitly asks for deeper behavior.
