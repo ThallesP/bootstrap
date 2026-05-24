@@ -10,7 +10,7 @@ Use this skill to turn rough product context into a practical starter app. `SKIL
 ## Runbook
 
 - Read and follow `docs/program.md` as the main executable logic.
-- Read `docs/tool-matrix.md` before recommending tools.
+- Read the relevant category files under `docs/tools/` before recommending tools.
 
 ## Core Rule
 

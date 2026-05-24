@@ -8,18 +8,20 @@ If the user asks to create, scaffold, bootstrap, initialize, or choose a stack f
 
 If the user already chose every major tool, skip recommendation and move to command planning.
 
-## Skill Discovery
+## Program
 
-Before scaffolding, check whether official or reputable skills can improve the setup for the chosen project type.
+Run this as a loop, not a one-shot answer.
 
-- Prefer the `find-skills` skill, when available, to search skills.sh for relevant project, framework, deployment, database, testing, or UI skills.
-- Install and use only a small set of clearly relevant skills for the current project.
-- Do not bulk-install broad collections, duplicates, near-duplicates, or speculative skills.
-- Prefer official skills and high-reputation sources when there are multiple options.
-- Ask before installing a skill unless the user already gave permission to install setup dependencies.
-- If no skill is clearly useful, proceed without adding one.
+1. Collect context by category.
+2. Search for a small number of relevant official or reputable skills.
+3. Read the matching tool category files under `docs/tools/`.
+4. Recommend one stack by category, with defaults where the user has no preference.
+5. Ask for approval or corrections.
+6. If the user changes a category, update only that category and loop back to approval.
+7. After approval, run official CLIs and package init commands.
+8. Run generated checks and report results.
 
-## Context Collection
+## Context Loop
 
 Ask with the `question` tool when available.
 
@@ -50,6 +52,20 @@ Optional context:
 - Runtime: Node, Bun, edge, serverless, long-running server.
 - Existing accounts: Convex, Clerk, Supabase, Neon, Vercel, Railway.
 
+If any required category is unclear, ask only the missing or high-impact follow-up questions. Do not interrogate the user when defaults are safe.
+
+## Skill Discovery Loop
+
+Before scaffolding, check whether official or reputable skills can improve the setup for the chosen project type.
+
+- Prefer the `find-skills` skill, when available, to search skills.sh for relevant project, framework, deployment, database, testing, or UI skills.
+- Skills CLI one-liner: use `npx skills find <topic>` to search and `npx skills add <url-or-package> --skill <name>` to install a selected skill.
+- Install and use only a small set of clearly relevant skills for the current project.
+- Do not bulk-install broad collections, duplicates, near-duplicates, or speculative skills.
+- Prefer official skills and high-reputation sources when there are multiple options.
+- Ask before installing a skill unless the user already gave permission to install setup dependencies.
+- If no skill is clearly useful, proceed without adding one.
+
 ## Defaults
 
 Assume these defaults unless the user context pushes elsewhere:
@@ -60,54 +76,20 @@ Assume these defaults unless the user context pushes elsewhere:
 - shadcn/ui for React app UI when the project wants ready-made components.
 - Playwright for browser E2E only when the project clearly has a meaningful UI flow worth testing.
 
-## Category Selection
+## Tool Selection
 
-Choose one recommendation per category instead of trying to decide the whole stack in one branchy pass.
+Read only the category files that match the user's context:
 
-### App Shell
+- `docs/tools/package-manager.md`
+- `docs/tools/app-shell.md`
+- `docs/tools/data-backend.md`
+- `docs/tools/auth.md`
+- `docs/tools/repo-shape.md`
+- `docs/tools/ui-styling.md`
+- `docs/tools/quality-testing.md`
+- `docs/tools/product-add-ons.md`
 
-- Choose Next.js for content, SEO, server rendering, route handlers, caching, or Vercel-first projects.
-- Choose TanStack Start for authenticated app UI, typed routing/data flows, and lower-framework-magic product apps.
-- Choose Vite for client-only SPAs, embedded tools, prototypes, or UIs that pair with a separate backend.
-
-### Data and Backend
-
-- Choose Convex when the app needs realtime sync, background workflows, reactive queries, or fast iteration on app plus backend together.
-- Choose Postgres with Drizzle or Prisma when the app needs relational reporting, SQL ownership, conventional backend architecture, or DB portability.
-- Choose framework route handlers or no backend yet when the first version is light and does not justify a full backend choice.
-
-### Auth
-
-- Choose Clerk when launch speed, hosted auth flows, organizations, and account UI matter more than owning auth internals.
-- Choose better-auth when the team wants auth in the repo, more control, and can accept more setup.
-- Skip auth in v0 when the app does not need it yet.
-
-### Repo Shape
-
-- Choose Turborepo when the project needs multiple apps, shared packages, SDKs, docs, workers, or examples.
-- Choose a single app when the project is one deployable surface with little shared code.
-
-### UI and Styling
-
-- Default to Tailwind unless the user already has a design system or explicitly wants another styling approach.
-- Add shadcn/ui for React projects that want practical components with local ownership.
-
-### Quality Tooling
-
-- Default to Biome when the user wants one simple formatting and linting tool.
-- Add oxlint when lint speed matters or the repo will be large.
-- Add Vitest for unit tests when the chosen framework does not already give a better default.
-- Add Playwright for browser E2E when auth flows, checkout, dashboards, or other important UI paths need coverage.
-
-### Small Supporting Tools
-
-- Add Stripe only when billing is in scope.
-- Add Resend only when email flows are in scope.
-- Add Sentry once there is a deploy target worth monitoring.
-- Add PostHog when analytics or feature flags are clearly useful.
-- Add Hono when the project needs a small standalone API instead of framework route handlers.
-- Add tRPC when the team wants a typed app-to-API boundary and Convex is not already the backend shape.
-- Add Inngest or Trigger.dev only when durable jobs are needed and the selected backend does not already cover that need.
+Choose one recommendation per relevant category. Skip categories that are out of scope for v0.
 
 When explaining the recommendation, walk category by category so the user can override one choice without redoing the whole stack.
 

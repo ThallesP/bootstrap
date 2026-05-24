@@ -6,7 +6,7 @@ Bootstrap is an agent skill for starting modern TypeScript apps. It asks for pro
 
 - `SKILL.md` contains the installable skill.
 - `docs/program.md` defines the decision flow.
-- `docs/tool-matrix.md` lists stack recommendations and avoid cases.
+- `docs/tools/` contains category-specific stack recommendations and avoid cases.
 - `setup` installs the skill locally for OpenCode and Claude.
 
 ## Install
